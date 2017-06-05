@@ -51,11 +51,15 @@ class Resolver:
         self.base_address = "http://www.filmweb.pl"
 
     def resolve(self):
-        print("Sprawdzamy czy " + self.actor.__str__() + " grał(a) w filmie " + self.movie)
+        print(
+            "Sprawdzamy czy " + self.actor.__str__() +
+            " grał(a) w filmie " + self.movie
+            )
         lines = self.get_lines(self.base_address + "/search?q=" + self.movie)
 
         movies = []
-        pattern = PatternBox.href + PatternBox.film_or_serial + PatternBox.full_alphabet + PatternBox.title
+        pattern = PatternBox.href + PatternBox.film_or_serial +\
+            PatternBox.full_alphabet + PatternBox.title
 
         for line in lines:
             link = re.search(pattern, line)
@@ -94,7 +98,10 @@ class Resolver:
             return ExitStatus.FOUND_ACTOR_WITH_THAT_LAST_NAME
 
         if not len(winner_movies) and not len(suspected_actors):
-            print("Solver nie znalazł informacji czy ten aktor grał w filmie o tym tytule")
+            print(
+                "Solver nie znalazł informacji " +
+                "czy ten aktor grał w filmie o tym tytule"
+                )
             return ExitStatus.NOT_FOUND
 
     @staticmethod
@@ -122,7 +129,7 @@ class Resolver:
         pat1_last_name = PatternBox.person1 + "(" +\
             PatternBox.full_alphabet + PatternBox.star + ")" +\
             self.actor.last_name + PatternBox.end
-        pat2_last_name2 = PatternBox.person2 + "(" +\
+        pat2_last_name = PatternBox.person2 + "(" +\
             PatternBox.full_alphabet + PatternBox.star + ")" +\
             self.actor.last_name + PatternBox.end
 
@@ -137,7 +144,7 @@ class Resolver:
             if result:
                 return result.group(1), self.actor.last_name
 
-            result = re.search(pat2_last_name2, line)
+            result = re.search(pat2_last_name, line)
             if result:
                 return result.group(1), self.actor.last_name
 
