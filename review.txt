@@ -1,0 +1,3 @@
+https://github.com/AGHPythonCourse2017/zad2-Baksztag/pull/1#pullrequestreview-42374068
+https://github.com/AGHPythonCourse2017/zad2-loanel/pull/1#pullrequestreview-42376689
+https://github.com/AGHPythonCourse2017/zad2-mwoss/pull/1#pullrequestreview-42378769
