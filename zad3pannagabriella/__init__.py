@@ -45,17 +45,18 @@ class PatternBox:
 
 
 class Resolver:
-    def __init__(self, first_name, last_name, movie):
-        self.movie = movie
+    def __init__(self, first_name, last_name, movie_name):
+        self.movie_name = movie_name
         self.actor = Actor(first_name, last_name)
         self.base_address = "http://www.filmweb.pl"
 
     def resolve(self):
         print(
             "Sprawdzamy czy " + self.actor.__str__() +
-            " grał(a) w filmie " + self.movie
+            " grał(a) w filmie " + self.movie_name
             )
-        lines = self.get_lines(self.base_address + "/search?q=" + self.movie)
+
+        lines = self.get_lines(self.base_address + "/search?q=" + self.movie_name)
 
         movies = []
         pattern = PatternBox.href + PatternBox.film_or_serial +\
@@ -80,6 +81,9 @@ class Resolver:
                 suspected_actors.append((Actor(result[0], result[1]), movie))
 
         if len(winner_movies):
+            # print(self.actor)
+            # mozna wywolac bez str kiedy nie uzywamy kontakenancji
+
             print(self.actor.__str__() + " grał(a) w filmach:")
             print("Oryginalne tytuły: ")
             for movie in winner_movies:
@@ -89,7 +93,7 @@ class Resolver:
             return ExitStatus.FOUND
 
         if not len(winner_movies) and len(suspected_actors):
-            print("Prawdopodobnie moze również chodzić o aktorów:")
+            print("Prawdopodobnie moze chodzić o aktorów:")
 
             for actor in suspected_actors:
                 print(actor[0].__str__() + " gral(a) w" + actor[1].__str__())
@@ -99,7 +103,7 @@ class Resolver:
 
         if not len(winner_movies) and not len(suspected_actors):
             print(
-                "Solver nie znalazł informacji " +
+                "Solver nie zweryfikował " +
                 "czy ten aktor grał w filmie o tym tytule"
                 )
             return ExitStatus.NOT_FOUND
